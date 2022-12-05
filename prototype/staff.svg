@@ -1,0 +1,10 @@
+<?xml version="1.0" standalone="no"?>
+<svg width="1000" height="400" viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg" version="1.1">
+
+<symbol id="notecircle" width="4" height="4" viewBox="0 0 4 4">
+   <path fill="black" stroke="none" d="M 0,3 C 0 0 2 0 4 1 C 4 4 2 4 0 3"/>
+</symbol>
+
+<use href="#notecircle" x="10" y="10"/>
+
+</svg>
