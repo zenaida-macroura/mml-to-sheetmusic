@@ -93,5 +93,114 @@ function renderSheetMusic(lines) {
       }
    }
 
+   // Process the tapes and dump the notes into the page
+   for (var i = 0; i < scores.length; i++) {
+      let scoretext = ''
+      
+      // defaults
+      let vibrato = 0
+      let length = 4
+      let portamento_speed = undefined
+      let octave = 4
+      let portamento_width = 0
+      let sustain = 0
+      let tempo = 120
+      let volume = 8
+      let decay = undefined
+      let detune = 0
+      let legato = false
+      let voice = undefined
+      let instrument_name = undefined
+      
+      for (var j = 0; j < scores[i].length; j++) {
+         for (var k = 0; k < scores[i][j].length; k++) {
+            let thischar = scores[i][j][k].toLowerCase()
+            switch (thischar) {
+               case 'a':
+               case 'b':
+               case 'c':
+               case 'd':
+               case 'e':
+               case 'f':
+               case 'g':
+                  scoretext += thischar.toUpperCase()
+                  // [<halftone +# or ->][<period .>]
+                  if ("+#".includes(scores[i][j][k+1])) {
+                     // sharp
+                     scoretext += '#'
+                     k++
+                  } else if ("-".includes(scores[i][j][k+1])) {
+                     // flat
+                     scoretext += 'b'
+                     k++
+                  }
+                  scoretext += octave
+                  scoretext += ' '
+                  break
+               case 'i':
+                  // <depth 0-255, 0=off>
+                  break
+               case 'l':
+                  // <length 1-64 def 4>
+                  break
+               case 'm':
+                  // <speed 1-255>
+                  break
+               case 'o':
+                  // <octave 1-8>
+                  break
+               case 'p':
+                  // <width 0-255, 0=off>
+                  break
+               case 'r':
+                  // <pause 1-64>[<period .>]
+                  break
+               case 's':
+                  // <sustain 0-1 (off/on)
+                  break
+               case 't':
+                  // <tempo 32-255>
+                  break
+               case 'v':
+                  // <volume 0-15>
+                  break
+               case 'w':
+                  // <length 0-8>
+                  break
+               case 'y':
+                  // <register>,<length 0-255>
+                  break
+               case 'z':
+                  // <detune 0-255, 0-off>
+                  break
+               case '<':
+                  octave--
+                  if (octave < 0) octave = 0
+                  break
+               case '>':
+                  octave++
+                  if (octave > 8) octave = 8
+                  break
+               case '(':
+                  legato = true
+                  break
+               case ')':
+                  legato = false
+                  break
+               case '@':
+                  // <voice 0-99 OPLL, 0-29 PSG, 0-49 SCC>
+                  break
+               case ';':
+                  //comment - that is, custom arguments
+                  // for now we are omitting them
+                  k = scores[i][j].length
+               default:
+                  // explode
+            }
+         }
+      }
+      rendercontainer.innerText += ((instrument_name == undefined) ? (i) : (instrument_name)) + ':' + scoretext + '\n'
+   }
+
    window.scores = scores
 }
