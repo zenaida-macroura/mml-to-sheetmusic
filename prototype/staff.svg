@@ -1,10 +1,23 @@
 <?xml version="1.0" standalone="no"?>
 <svg width="1000" height="400" viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg" version="1.1">
 
-<symbol id="notecircle" width="4" height="4" viewBox="0 0 4 4">
-   <path fill="black" stroke="none" d="M 0,3 C 0 0 2 0 4 1 C 4 4 2 4 0 3"/>
+<symbol id="notecircle" width="4" height="3" viewBox="0 0 4 3">
+   <ellipse cx="2" cy="1.5" rx="2" ry="1.4" transform="rotate(-15)" transform-origin="center"/>
 </symbol>
 
-<use href="#notecircle" x="10" y="10"/>
+<symbol id="staffline" width="200" height="12.5" viewBox="0 0 200 12.5">
+   <path fill="black" stroke="none" d="M 0,0 L 200,0 L 200,0.5 L 0,0.5"/>
+   <path fill="black" stroke="none" d="M 0,3 L 200,3 L 200,3.5 L 0,3.5"/>
+   <path fill="black" stroke="none" d="M 0,6 L 200,6 L 200,6.5 L 0,6.5"/>
+   <path fill="black" stroke="none" d="M 0,9 L 200,9 L 200,9.5 L 0,9.5"/>
+   <path fill="black" stroke="none" d="M 0,12 L 200,12 L 200,12.5 L 0,12.5"/>
+</symbol>
+
+<use href="#notecircle" x="8" y="4.75"/>
+<use href="#notecircle" x="16" y="3.25"/>
+<use href="#notecircle" x="0" y="0.25"/>
+
+<use href="#staffline" x="0" y="0"/>
+<use href="#staffline" x="0" y="18"/>
 
 </svg>
