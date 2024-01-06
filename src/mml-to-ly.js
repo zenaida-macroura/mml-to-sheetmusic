@@ -35,12 +35,12 @@ Note.accidental_transform = /* static */ function(inacc, type) {
 
 Note.octave_transform = /* static */ function (inoct, type) {
    if (type === 'ly') {
-      if (inoct > 4) {
-         return '\''.repeat(inoct - 4)
-      } else if (inoct == 4) {
+      if (inoct > 3) {
+         return '\''.repeat(inoct - 3)
+      } else if (inoct == 3) {
          return ''
       } else {
-         return ','.repeat(Math.abs(4 - inoct))
+         return ','.repeat(Math.abs(3 - inoct))
       }
    } else {
       return inoct
