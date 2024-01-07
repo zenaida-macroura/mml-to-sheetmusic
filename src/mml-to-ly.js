@@ -61,19 +61,32 @@ Note.prototype.to_ly = /* method */ function () {
    return resultant + postfix
 }
 
-function split_mml(instring) {
+function /* class */ Song(instring) {
+
    // Detect MML type
-   let MML_TYPE = undefined
+   this.MML_TYPE = undefined
    if (instring.substr(0,3) === 'FM1') {
-      MML_TYPE = 'MuSICA'
-      return [99, 'MuSICA support is not yet implemented.']
+      this.MML_TYPE = 'MuSICA'
+      this.error = 99
+      this.resultant = 'MuSICA support is not yet implemented.'
+      return
    } else if (instring.substr(0,10) === '[Settings]') {
-      MML_TYPE = '3MLE'
-      return [99, '3MLE support is not yet implemented.']
+      this.MML_TYPE = '3MLE'
+      this.error = 99
+      this.resultant = '3MLE support is not yet implemented.'
+      return
    } else if (instring.substr(0,4) === 'MML@') {
-      MML_TYPE = 'Mabinogi'
+      this.MML_TYPE = 'Mabinogi'
+   } else if (instring.substr(0,7) === '[Title]') {
+      this.MML_TYPE = 'Sitaraba'
+
+      this.title = instring.substring(7, instring.indexOf('[Source]'))
+      this.composer = instring.substring(instring.indexOf('[Source]')+8, instring.indexOf('[Compose Rank]'))
+      instring = instring.substr(instring.indexOf('MML@'))
    } else {
-      return [2, "Could not determine MML type, or MML type is unsupported."]
+      this.error = 2
+      this.resultant = "Could not determine MML type, or MML type is unsupported."
+      return
    }
 
    let DEFAULT_NOTE_LENGTH = undefined
@@ -81,7 +94,7 @@ function split_mml(instring) {
 
    let outarr = []
 
-   if (MML_TYPE === 'Mabinogi') {
+   if ((this.MML_TYPE === 'Mabinogi') || (this.MML_TYPE === 'Sitaraba')) {
 
       DEFAULT_NOTE_LENGTH = 4
       DEFAULT_OCTAVE = 4
@@ -175,15 +188,28 @@ function split_mml(instring) {
          }
       }
    }
-
-   return outarr
+   
+   this.arr = outarr
+   return
 }
 
-function to_ly(inarr) {
-   let resultant = '\\score { <<'
+function to_ly(insong) {
+   if (insong.error != undefined) {
+      return insong.resultant
+   }
+
+   let resultant = ''
+
+   if (insong.MML_TYPE == 'Sitaraba') {
+      resultant += '\\header {\ntitle = "' + insong.title + '"\ncomposer = "' + insong.composer + '"\n}'
+   }
+
+   resultant += '\\score { <<'
+
+   let inarr = insong.arr
 
    for (let i = 0; i < inarr.length; i++) {
-      resultant += '\\new Staff { \\clef treble '
+      resultant += '\n\\new Staff { \\clef treble '
       for (let j = 0; j < inarr[i].length; j++) {
          resultant += inarr[i][j].to_ly()
       }

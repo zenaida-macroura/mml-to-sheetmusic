@@ -1,1 +1,6 @@
+<p>Paste exported MML here:</p>
+<textarea id="inmml" cols=40 rows=10></textarea>
+<br><button onclick="outly.value = to_ly(new Song(inmml.value))">Convert MML to LY</button>
+<p>Resultant LilyPond here:</p>
+<textarea id="outly" disabled="true" cols=40 rows=10></textarea>
 <script src="mml-to-ly.js"></script>
